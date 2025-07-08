@@ -1,0 +1,356 @@
+{
+  "clothing": {
+    "underwear": [
+      {
+        "id": "male_boxers_black",
+        "name": "Черные боксеры",
+        "icon": "🩲",
+        "price": 15,
+        "effects": { "dignity": 2 },
+        "requirements": {},
+        "description": "Обычные мужские боксеры черного цвета"
+      },
+      {
+        "id": "male_briefs_white",
+        "name": "Белые трусы",
+        "icon": "🩲",
+        "price": 12,
+        "effects": {},
+        "requirements": {},
+        "description": "Классические белые мужские трусы"
+      },
+      {
+        "id": "pink_panties_lace",
+        "name": "Розовые кружевные трусики",
+        "icon": "👙",
+        "price": 25,
+        "effects": { "femininity": 5, "arousal": 3, "dignity": -2 },
+        "requirements": { "femininity": 10 },
+        "description": "Милые розовые трусики с кружевами"
+      },
+      {
+        "id": "black_thong",
+        "name": "Черные стринги",
+        "icon": "👙",
+        "price": 30,
+        "effects": { "femininity": 8, "arousal": 5, "dignity": -5 },
+        "requirements": { "femininity": 25, "sissification": 15 },
+        "description": "Сексуальные черные стринги"
+      },
+      {
+        "id": "red_satin_panties",
+        "name": "Красные атласные трусики",
+        "icon": "👙",
+        "price": 35,
+        "effects": { "femininity": 7, "arousal": 4, "mood": 5 },
+        "requirements": { "femininity": 20 },
+        "description": "Элегантные атласные трусики алого цвета"
+      },
+      {
+        "id": "white_cotton_panties",
+        "name": "Белые хлопковые трусики",
+        "icon": "👙",
+        "price": 20,
+        "effects": { "femininity": 3, "hygiene": 5 },
+        "requirements": { "femininity": 5 },
+        "description": "Удобные белые трусики из хлопка"
+      }
+    ],
+    "upper": [
+      {
+        "id": "male_tshirt_black",
+        "name": "Черная футболка",
+        "icon": "👕",
+        "price": 20,
+        "effects": {},
+        "requirements": {},
+        "description": "Простая черная мужская футболка"
+      },
+      {
+        "id": "male_shirt_white",
+        "name": "Белая рубашка",
+        "icon": "👔",
+        "price": 45,
+        "effects": { "dignity": 5, "social": 3 },
+        "requirements": {},
+        "description": "Классическая белая рубашка"
+      },
+      {
+        "id": "pink_blouse",
+        "name": "Розовая блузка",
+        "icon": "👚",
+        "price": 55,
+        "effects": { "femininity": 10, "dignity": -3 },
+        "requirements": { "femininity": 20 },
+        "description": "Женственная розовая блузка"
+      },
+      {
+        "id": "red_dress_mini",
+        "name": "Красное мини-платье",
+        "icon": "👗",
+        "price": 120,
+        "effects": { "femininity": 20, "arousal": 5, "dignity": -10 },
+        "requirements": { "femininity": 40, "sissification": 25 },
+        "description": "Соблазнительное красное мини-платье"
+      },
+      {
+        "id": "maid_dress",
+        "name": "Платье горничной",
+        "icon": "👗",
+        "price": 150,
+        "effects": { "femininity": 25, "submission": 15, "dignity": -20 },
+        "requirements": { "femininity": 50, "submission": 30 },
+        "description": "Классическое платье французской горничной"
+      }
+    ],
+    "lower": [
+      {
+        "id": "male_jeans_blue",
+        "name": "Синие джинсы",
+        "icon": "👖",
+        "price": 60,
+        "effects": {},
+        "requirements": {},
+        "description": "Обычные мужские джинсы"
+      },
+      {
+        "id": "black_skirt_mini",
+        "name": "Черная мини-юбка",
+        "icon": "👗",
+        "price": 45,
+        "effects": { "femininity": 12, "dignity": -5 },
+        "requirements": { "femininity": 25 },
+        "description": "Короткая черная юбка"
+      },
+      {
+        "id": "pink_skirt_pleated",
+        "name": "Розовая плиссированная юбка",
+        "icon": "👗",
+        "price": 55,
+        "effects": { "femininity": 15, "mood": 5, "dignity": -8 },
+        "requirements": { "femininity": 30, "sissification": 20 },
+        "description": "Милая розовая юбочка в складку"
+      }
+    ],
+    "shoes": [
+      {
+        "id": "male_sneakers_black",
+        "name": "Черные кроссовки",
+        "icon": "👟",
+        "price": 80,
+        "effects": { "energy": 5 },
+        "requirements": {},
+        "description": "Удобные спортивные кроссовки"
+      },
+      {
+        "id": "high_heels_black",
+        "name": "Черные туфли на каблуках",
+        "icon": "👠",
+        "price": 90,
+        "effects": { "femininity": 10, "energy": -10, "dignity": -5 },
+        "requirements": { "femininity": 30 },
+        "description": "Классические черные туфли на 10см каблуке"
+      },
+      {
+        "id": "pink_heels",
+        "name": "Розовые туфельки",
+        "icon": "👠",
+        "price": 110,
+        "effects": { "femininity": 15, "energy": -15, "mood": 5 },
+        "requirements": { "femininity": 40, "sissification": 25 },
+        "description": "Милые розовые туфельки на шпильке"
+      }
+    ]
+  },
+  "toys": [
+    {
+      "id": "dildo_small_pink",
+      "name": "Маленький розовый дилдо",
+      "icon": "🍆",
+      "price": 40,
+      "size": "small",
+      "effects": { "arousal": 15, "analTraining": 3 },
+      "requirements": {},
+      "description": "Небольшой дилдо для начинающих, 12см"
+    },
+    {
+      "id": "dildo_medium_realistic",
+      "name": "Реалистичный дилдо",
+      "icon": "🍆",
+      "price": 65,
+      "size": "medium",
+      "effects": { "arousal": 25, "analTraining": 5, "submission": 3 },
+      "requirements": { "analTraining": 20 },
+      "description": "Реалистичный дилдо среднего размера, 18см"
+    },
+    {
+      "id": "dildo_large_black",
+      "name": "Большой черный дилдо",
+      "icon": "🍆",
+      "price": 90,
+      "size": "large",
+      "effects": { "arousal": 35, "analTraining": 8, "submission": 5, "dignity": -5 },
+      "requirements": { "analTraining": 40, "submission": 20 },
+      "description": "Внушительный черный дилдо, 25см"
+    },
+    {
+      "id": "vibrator_bullet_pink",
+      "name": "Розовая вибропуля",
+      "icon": "🔌",
+      "price": 50,
+      "type": "vibrator",
+      "effects": { "arousal": 30 },
+      "requirements": {},
+      "description": "Маленький мощный вибратор"
+    },
+    {
+      "id": "vibrator_wand",
+      "name": "Вибратор-микрофон",
+      "icon": "🎤",
+      "price": 120,
+      "type": "vibrator",
+      "effects": { "arousal": 50 },
+      "requirements": {},
+      "description": "Мощный вибратор для гарантированного оргазма"
+    },
+    {
+      "id": "anal_beads",
+      "name": "Анальные бусы",
+      "icon": "📿",
+      "price": 35,
+      "effects": { "arousal": 20, "analTraining": 4 },
+      "requirements": { "analTraining": 10 },
+      "description": "Силиконовые анальные бусы"
+    },
+    {
+      "id": "buttplug_small_jewel",
+      "name": "Маленькая пробка с камушком",
+      "icon": "💎",
+      "price": 45,
+      "size": "small",
+      "effects": { "arousal": 10, "analTraining": 2, "femininity": 3 },
+      "requirements": {},
+      "description": "Металлическая пробка с розовым кристаллом"
+    },
+    {
+      "id": "buttplug_medium_tail",
+      "name": "Пробка с хвостиком",
+      "icon": "🦊",
+      "price": 70,
+      "size": "medium",
+      "effects": { "arousal": 15, "analTraining": 4, "femininity": 5, "submission": 3 },
+      "requirements": { "analTraining": 25 },
+      "description": "Силиконовая пробка с пушистым хвостом"
+    }
+  ],
+  "chastity": [
+    {
+      "id": "chastity_plastic_pink",
+      "name": "Розовый пластиковый пояс",
+      "icon": "🔒",
+      "price": 150,
+      "material": "plastic",
+      "effects": { "arousal": 5, "submission": 10, "dignity": -15 },
+      "requirements": { "submission": 15 },
+      "description": "Легкий розовый пояс верности из пластика"
+    },
+    {
+      "id": "chastity_metal_small",
+      "name": "Маленькая металлическая клетка",
+      "icon": "🔒",
+      "price": 200,
+      "material": "metal",
+      "size": "small",
+      "effects": { "arousal": 8, "submission": 15, "dignity": -20, "sissification": 10 },
+      "requirements": { "submission": 25, "sissification": 20 },
+      "description": "Тесная металлическая клетка целомудрия"
+    },
+    {
+      "id": "chastity_sissy_pink",
+      "name": "Сисси-клетка 'Принцесса'",
+      "icon": "👑",
+      "price": 350,
+      "material": "silicone",
+      "size": "tiny",
+      "effects": { "arousal": 10, "submission": 20, "dignity": -30, "sissification": 20, "femininity": 10 },
+      "requirements": { "submission": 40, "sissification": 35, "femininity": 30 },
+      "description": "Крошечная розовая клетка с надписью 'Princess'"
+    }
+  ],
+  "accessories": [
+    {
+      "id": "collar_leather_black",
+      "name": "Черный кожаный ошейник",
+      "icon": "📿",
+      "price": 60,
+      "effects": { "submission": 8, "dignity": -10 },
+      "requirements": { "submission": 20 },
+      "description": "Классический БДСМ ошейник"
+    },
+    {
+      "id": "collar_pink_bell",
+      "name": "Розовый ошейник с колокольчиком",
+      "icon": "🔔",
+      "price": 45,
+      "effects": { "submission": 5, "femininity": 5, "dignity": -8 },
+      "requirements": { "submission": 15, "femininity": 20 },
+      "description": "Милый розовый ошейник с бубенчиком"
+    },
+    {
+      "id": "makeup_basic",
+      "name": "Базовый набор косметики",
+      "icon": "💄",
+      "price": 80,
+      "effects": { "femininity": 10 },
+      "requirements": { "femininity": 15 },
+      "description": "Помада, тушь и тени для век"
+    },
+    {
+      "id": "wig_blonde_long",
+      "name": "Длинный блонд парик",
+      "icon": "👱‍♀️",
+      "price": 120,
+      "effects": { "femininity": 15, "mood": 5 },
+      "requirements": { "femininity": 25 },
+      "description": "Красивый парик с длинными светлыми волосами"
+    },
+    {
+      "id": "wig_brunette_bob",
+      "name": "Каре брюнетки",
+      "icon": "👩",
+      "price": 100,
+      "effects": { "femininity": 12 },
+      "requirements": { "femininity": 20 },
+      "description": "Стильное темное каре"
+    }
+  ],
+  "consumables": [
+    {
+      "id": "lube_strawberry",
+      "name": "Клубничная смазка",
+      "icon": "🍓",
+      "price": 15,
+      "uses": 5,
+      "effects": { "arousal": 5 },
+      "description": "Ароматизированная смазка со вкусом клубники"
+    },
+    {
+      "id": "energy_drink",
+      "name": "Энергетик",
+      "icon": "🥤",
+      "price": 5,
+      "uses": 1,
+      "effects": { "energy": 30, "stress": 5 },
+      "description": "Восстанавливает энергию, но повышает стресс"
+    },
+    {
+      "id": "aphrodisiac_pills",
+      "name": "Афродизиак",
+      "icon": "💊",
+      "price": 50,
+      "uses": 3,
+      "effects": { "arousal": 40, "willpower": -10 },
+      "description": "Таблетки для повышения либидо"
+    }
+  ]
+} 

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sissy Life Sim</title>
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="game-header">
+      <div class="game-title">
+        <img src="assets/logo.png" alt="Sissy Life Sim" class="game-logo">
+      </div>
+      <div class="header-controls">
+        <div class="time-widget">
+          <div class="time-icon">🕒</div>
+          <div class="time-info">
+            <div class="time-day">День <span id="current-day">1</span></div>
+            <div class="time-clock"><span id="current-time">08:00</span></div>
+          </div>
+        </div>
+        
+        <div style="position: relative;">
+          <button class="main-menu-btn" id="main-menu-btn">
+            <span>☰</span>
+            <span>Меню</span>
+          </button>
+          
+          <div class="dropdown-menu" id="main-menu">
+            <div class="dropdown-item" data-action="new-game">
+              <span>🎮</span>
+              <span>Новая игра</span>
+            </div>
+            <div class="dropdown-item" data-action="settings">
+              <span>⚙️</span>
+              <span>Настройки</span>
+            </div>
+            <div class="dropdown-item" data-action="save">
+              <span>💾</span>
+              <span>Сохранить игру</span>
+            </div>
+            <div class="dropdown-item" data-action="load">
+              <span>📁</span>
+              <span>Загрузить игру</span>
+            </div>
+            <div class="dropdown-item" data-action="export">
+              <span>📤</span>
+              <span>Экспорт сохранения</span>
+            </div>
+            <div class="dropdown-item" data-action="import">
+              <span>📥</span>
+              <span>Импорт сохранения</span>
+            </div>
+            <div class="dropdown-item" data-action="stuck">
+              <span>🆘</span>
+              <span>Я застрял!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats-sidebar">
+      <div class="stats-section">
+        <div class="stats-title">
+          Персонаж
+          <button class="stats-expand-btn" data-stats="character">🔍</button>
+        </div>
+        <div id="character-stats"></div>
+      </div>
+      
+      <div class="stats-section">
+        <div class="stats-title">
+          Фетиши
+          <button class="stats-expand-btn" data-stats="fetish">🔍</button>
+        </div>
+        <div id="fetish-stats"></div>
+      </div>
+      
+      <div class="stats-section">
+        <div class="stats-title">Экипировка</div>
+        <div id="equipment-slots"></div>
+        <button class="inventory-btn" id="inventory-btn">
+          <span>🎒</span>
+          <span>Инвентарь</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="game-main">
+      <div class="game-content" id="game-content">
+        <!-- Здесь будет отображаться контент сцен -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Overlays -->
+  
+  <!-- Inventory Modal -->
+  <div class="modal-overlay" id="inventory-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🎒</span>
+          <span>Инвентарь</span>
+        </div>
+        <button class="modal-close" data-close="inventory-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="equipment-section">
+          <h3>Экипированные предметы</h3>
+          <div class="equipment-slots" id="modal-equipment-slots">
+            <!-- Equipment slots will be populated here -->
+          </div>
+        </div>
+        
+        <div class="inventory-section">
+          <h3>Предметы в инвентаре</h3>
+          <div class="inventory-grid" id="modal-inventory-grid">
+            <!-- Inventory items will be populated here -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="inventory-modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Stats Modal -->
+  <div class="modal-overlay" id="stats-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📊</span>
+          <span id="stats-modal-title">Расширенная статистика</span>
+        </div>
+        <button class="modal-close" data-close="stats-modal">×</button>
+      </div>
+      <div class="modal-body" id="stats-modal-content">
+        <!-- Detailed stats will be populated here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="stats-modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>⚙️</span>
+          <span>Настройки</span>
+        </div>
+        <button class="modal-close" data-close="settings-modal">×</button>
+      </div>
+      <div class="modal-body" id="settings-modal-content">
+        <!-- Settings will be populated here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="save-settings">Сохранить</button>
+        <button class="btn btn-secondary" data-close="settings-modal">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html> 

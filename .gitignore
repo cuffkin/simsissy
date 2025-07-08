@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# IDE
+.cursor/
+.vscode/
+.idea/
+
+# Debug logs
+debug-logs-*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.temp
+*.log
+
+# Build output
+dist/
+build/
+
+# Local env files
+.env
+.env.local
+
+# Game saves (optional - можно закомментировать если нужно сохранять)
+# localStorage backups
+*.save 
