@@ -1,7 +1,6 @@
 import { marked } from 'marked';
 import store from '../systems/store.js';
 import { handleSpecialLink } from './actions.js';
-import DebugLogger from './DebugLogger.js';
 
 // Настройка marked для правильной обработки HTML
 marked.setOptions({
@@ -148,23 +147,18 @@ class SceneEngine {
   }
 
   renderMarkdown(md) {
-    window.debugLogger?.log('DEBUG', `🔍 renderMarkdown called, input length: ${md.length}`);
     
     // Проверяем, есть ли HTML в исходном markdown
     const hasHtml = /<[^>]+>/.test(md);
-    window.debugLogger?.log('DEBUG', `Input contains HTML: ${hasHtml}`);
     
     // Пробуем парсить
     let html = marked.parse(md);
     
     // Проверяем результат
-    window.debugLogger?.log('DEBUG', `Parsed HTML length: ${html.length}`);
-    window.debugLogger?.log('TRACE', `First 500 chars of parsed HTML: ${html.substring(0, 500)}`);
     
     // Проверяем, были ли экранированы HTML теги
     const escapedTags = /&lt;|&gt;|&quot;|&#39;|&amp;/.test(html);
     if (escapedTags) {
-      window.debugLogger?.log('WARN', '⚠️ HTML tags were escaped by marked!');
       
       // Пытаемся исправить экранирование
       html = html
@@ -174,36 +168,29 @@ class SceneEngine {
         .replace(/&#39;/g, "'")
         .replace(/&amp;/g, '&');
         
-      window.debugLogger?.log('DEBUG', 'Unescaped HTML manually');
     }
     
     return html;
   }
 
   loadScene(id) {
-    window.debugLogger?.logSceneLoad(id);
     
     const md = scenes[id];
     if (!md) {
-      window.debugLogger?.log('ERROR', `Scene not found: ${id}`);
       this.root.innerHTML = `<p class="text-red-600">Сцена «${id}» не найдена.</p>`;
       return;
     }
     
-    window.debugLogger?.log('DEBUG', `Scene markdown loaded, length: ${md.length}`);
-    
-    // КРИТИЧЕСКИ ВАЖНО: Сначала выполняем скрипты ДО рендера HTML
-    this.executeScriptsBeforeRender(md);
-    
-    // Проверяем доступность функций перед рендером
-    const requiredFunctions = this.extractRequiredFunctions(md);
-    window.debugLogger?.checkFunctionAvailability(requiredFunctions);
     
     const html = this.renderMarkdown(md);
-    window.debugLogger?.logMarkdownParsing(md, html);
     
     this.root.innerHTML = html;
-    window.debugLogger?.logDOMUpdate('#game-content', html);
+    
+    // КРИТИЧЕСКИ ВАЖНО: Выполняем скрипты ПОСЛЕ рендера HTML
+    this.executeScriptsAfterRender(md);
+    
+    // Проверяем доступность функций после рендера
+    const requiredFunctions = this.extractRequiredFunctions(md);
     
     // Логируем все onclick атрибуты
     this.logOnclickHandlers();
@@ -214,7 +201,6 @@ class SceneEngine {
       if (href && !href.startsWith('http')) {
         a.addEventListener('click', (e) => {
           e.preventDefault();
-          window.debugLogger?.logEventHandler('click', 'link', href);
           if (!handleSpecialLink(href, this)) {
             this.pushScene(href);
           }
@@ -228,7 +214,10 @@ class SceneEngine {
     history.pushState({}, '', url);
 
     // Выполняем инициализацию сцены после рендера
-    this.executePostRenderScripts(this.root);
+    try {
+      this.executePostRenderScripts(this.root);
+    } catch (error) {
+    }
   }
 
   pushScene(id) {
@@ -242,7 +231,7 @@ class SceneEngine {
     if (prev) this.loadScene(prev);
   }
 
-  executeScriptsBeforeRender(markdownContent) {
+  executeScriptsAfterRender(markdownContent) {
     // Извлекаем все script блоки из markdown
     const scriptRegex = /<script>([\s\S]*?)<\/script>/g;
     let match;
@@ -252,54 +241,39 @@ class SceneEngine {
       const scriptContent = match[1];
       scriptCount++;
       
-      window.debugLogger?.logScriptExecution('pre-render', scriptContent);
       
       try {
         // Пробуем несколько способов выполнения
         
         // Способ 1: Function constructor
-        window.debugLogger?.log('DEBUG', `Trying Function constructor for script ${scriptCount}`);
+        
         const func = new Function(scriptContent);
         func.call(window);
         
         // Способ 2: eval в глобальном контексте (fallback)
-        window.debugLogger?.log('DEBUG', `Trying global eval for script ${scriptCount}`);
+        
         (1, eval)(scriptContent);
         
-        window.debugLogger?.log('INFO', `✅ Pre-render script ${scriptCount} executed successfully`);
-        
-        // Проверяем, какие функции были добавлены
-        this.checkNewFunctions();
-        
       } catch (error) {
-        window.debugLogger?.log('ERROR', `❌ Pre-render script ${scriptCount} failed: ${error.message}`, {
-          error: error.toString(),
-          script: scriptContent.substring(0, 200)
-        });
       }
     }
     
-    window.debugLogger?.log('INFO', `Total scripts found and processed: ${scriptCount}`);
   }
 
   executePostRenderScripts(container) {
     if (!container) return;
     
-    window.debugLogger?.log('DEBUG', 'Starting post-render scripts execution');
     
     // Вызываем функции инициализации сцены, если они есть
     const sceneFunctions = ['loadBathroom', 'loadHallway', 'loadKitchen', 'loadRoom'];
     
     sceneFunctions.forEach(funcName => {
       const funcExists = typeof window[funcName] === 'function';
-      window.debugLogger?.logFunctionRegistration(funcName, funcExists);
       
       if (funcExists) {
         try {
           window[funcName]();
-          window.debugLogger?.log('INFO', `✅ Scene init function ${funcName} executed`);
         } catch (error) {
-          window.debugLogger?.log('ERROR', `❌ Scene init function ${funcName} failed: ${error.message}`);
         }
       }
     });
@@ -320,18 +294,12 @@ class SceneEngine {
   
   logOnclickHandlers() {
     const elements = this.root.querySelectorAll('[onclick]');
-    window.debugLogger?.log('INFO', `Found ${elements.length} elements with onclick handlers`);
     
     elements.forEach((el, index) => {
       const onclick = el.getAttribute('onclick');
       const funcName = onclick.match(/^([^(]+)\(/)?.[1];
       const funcExists = funcName && typeof window[funcName] === 'function';
       
-      window.debugLogger?.logEventHandler(
-        'onclick',
-        `${el.tagName}[${index}]`,
-        `${onclick} (${funcExists ? '✅ exists' : '❌ missing'})`
-      );
     });
   }
   
@@ -353,7 +321,6 @@ class SceneEngine {
       .map(([name]) => name);
     
     if (missing.length > 0) {
-      window.debugLogger?.log('WARN', `⚠️ Missing expected functions: ${missing.join(', ')}`);
     }
   }
 }

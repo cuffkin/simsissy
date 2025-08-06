@@ -36,6 +36,7 @@
   
   <div id="hallway-actions">
     <!-- Дополнительные действия в зависимости от типа квартиры -->
+          <button onclick="window.uiManager.showWardrobeModal()" class="special-action-btn">Открыть гардероб</button>
   </div>
 </div>
 

@@ -84,7 +84,7 @@ class BodySystem {
 
   // Изменить параметр тела
   modifyBodyPart(part, change) {
-    if (!this.store.body[part] !== undefined) {
+    if (this.store.body[part] === undefined) {
       console.error(`Unknown body part: ${part}`);
       return false;
     }

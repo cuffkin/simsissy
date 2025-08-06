@@ -126,7 +126,15 @@ class UIManager {
     this.showModal('inventory-modal');
   }
 
+  showWardrobeModal() {
+    this.populateWardrobeModal();
+    this.showModal('wardrobe-modal');
+  }
+
   populateInventoryModal() {
+    // Инициализация стартовой одежды если её нет
+    this.initializeStartingClothing();
+    
     // Equipment slots
     const equipmentContainer = document.getElementById('modal-equipment-slots');
     const inventoryContainer = document.getElementById('modal-inventory-grid');
@@ -146,10 +154,10 @@ class UIManager {
         const isEquipped = equipped ? 'equipped' : '';
         
         return `
-          <div class="equipment-slot ${isEquipped}" data-slot="${slot.id}">
+          <div class="equipment-slot ${isEquipped}" data-slot="${slot.id}" onclick="window.uiManager.unequipItem('${slot.id}')">
             <div class="equipment-slot-icon">${slot.icon}</div>
             <div class="equipment-slot-name">${slot.name}</div>
-            ${equipped ? `<div class="equipment-item-name">${equipped.name}</div>` : ''}
+            ${equipped ? `<div class="equipment-item-name">${equipped.name}</div>` : '<div class="equipment-item-empty">Пусто</div>'}
           </div>
         `;
       }).join('');
@@ -165,15 +173,29 @@ class UIManager {
         `;
       } else {
         inventoryContainer.innerHTML = store.inventory.map(item => `
-          <div class="inventory-slot" data-item-id="${item.id}">
+          <div class="inventory-slot" data-item-id="${item.id}" onclick="window.uiManager.equipItem('${item.id}')">
             <div class="inventory-item">
               <div class="inventory-item-icon">${item.icon || '📦'}</div>
               <div class="inventory-item-name">${item.name}</div>
+              <div class="inventory-item-slot">${this.getSlotName(item.slot)}</div>
             </div>
           </div>
         `).join('');
       }
     }
+
+  }
+
+  getSlotName(slotId) {
+    const slotNames = {
+      'hair': 'Волосы',
+      'upper': 'Верх', 
+      'lower': 'Низ',
+      'underwear': 'Белье',
+      'shoes': 'Обувь',
+      'accessories': 'Аксессуары'
+    };
+    return slotNames[slotId] || slotId;
   }
 
   showStatsModal(type) {
@@ -519,6 +541,168 @@ class UIManager {
         }
       }, 300);
     }, 3000);
+  }
+
+  showEquipOptions(slotId) {
+    // Логика показа опций для слота
+    const suitableItems = store.inventory.filter(item => item.slot === slotId);
+    // TODO: Отобразить модал с выбором
+    console.log(`Suitable items for ${slotId}:`, suitableItems);
+  }
+
+  equipItem(itemId) {
+    const item = store.inventory.find(i => i.id === itemId);
+    if (item && store.equipped[item.slot] !== item) {
+      // Снимаем текущий предмет если есть
+      if (store.equipped[item.slot]) {
+        this.unequipItem(item.slot);
+      }
+      
+      // Надеваем новый
+      store.equipped[item.slot] = item;
+      
+      // Убираем из инвентаря
+      const invIndex = store.inventory.findIndex(i => i.id === itemId);
+      if (invIndex !== -1) {
+        store.inventory.splice(invIndex, 1);
+      }
+      
+      this.populateInventoryModal(); // Refresh
+      this.showNotification(`Надели ${item.name}`, 'success');
+    }
+  }
+
+  unequipItem(slotId) {
+    const equipped = store.equipped[slotId];
+    if (equipped) {
+      // Возвращаем в инвентарь
+      store.inventory.push(equipped);
+      // Снимаем
+      store.equipped[slotId] = null;
+      this.showNotification(`Сняли ${equipped.name}`, 'info');
+    }
+  }
+
+  initializeStartingClothing() {
+    // Проверяем, инициализирована ли одежда
+    if (store.flags.clothingInitialized) return;
+    
+    // Базовая мужская одежда
+    const basicClothing = [
+      { id: 'male_shirt_white', name: 'Белая рубашка', slot: 'upper', icon: '👔', effects: {} },
+      { id: 'male_jeans_blue', name: 'Синие джинсы', slot: 'lower', icon: '👖', effects: {} },
+      { id: 'male_boxers_black', name: 'Черные боксеры', slot: 'underwear', icon: '🩲', effects: {} },
+      { id: 'male_sneakers_black', name: 'Черные кроссовки', slot: 'shoes', icon: '👟', effects: {} }
+    ];
+    
+    // Если кроссдрессер - добавляем специальные предметы
+    const preset = store.flags.characterPreset;
+    if (preset === 'crossdresser') {
+      basicClothing.push(
+        { id: 'pink_panties', name: 'Розовые трусики', slot: 'underwear', icon: '👙', effects: { femininity: 2 } },
+        { id: 'basic_bra', name: 'Базовый лифчик', slot: 'upper', icon: '👙', effects: { femininity: 1 } },
+        { id: 'chastity_plastic_pink', name: 'Розовый пояс верности', slot: 'accessories', icon: '🔒', effects: { submission: 5 } },
+        { id: 'buttplug_small_jewel', name: 'Маленькая пробка', slot: 'accessories', icon: '💎', effects: { analTraining: 3 } }
+      );
+    }
+    
+    // Добавляем в инвентарь
+    store.inventory.push(...basicClothing);
+    
+    // Автоматически надеваем базовую мужскую одежду
+    store.equipped.upper = basicClothing.find(i => i.id === 'male_shirt_white');
+    store.equipped.lower = basicClothing.find(i => i.id === 'male_jeans_blue');
+    store.equipped.underwear = basicClothing.find(i => i.id === 'male_boxers_black');
+    store.equipped.shoes = basicClothing.find(i => i.id === 'male_sneakers_black');
+    
+    // Убираем надетые предметы из инвентаря
+    ['male_shirt_white', 'male_jeans_blue', 'male_boxers_black', 'male_sneakers_black'].forEach(id => {
+      const index = store.inventory.findIndex(i => i.id === id);
+      if (index !== -1) store.inventory.splice(index, 1);
+    });
+    
+    store.flags.clothingInitialized = true;
+  }
+
+  populateWardrobeModal() {
+    // Инициализация стартовой одежды если её нет
+    this.initializeStartingClothing();
+    
+    // Equipment slots
+    const equipmentContainer = document.getElementById('wardrobe-equipment-slots');
+    const wardrobeContainer = document.getElementById('wardrobe-items-grid');
+    
+    if (equipmentContainer) {
+      const slots = [
+        { id: 'hair', name: 'Волосы', icon: '💇' },
+        { id: 'upper', name: 'Верх', icon: '👚' },
+        { id: 'lower', name: 'Низ', icon: '👖' },
+        { id: 'underwear', name: 'Бельё', icon: '👙' },
+        { id: 'shoes', name: 'Обувь', icon: '👠' },
+        { id: 'accessories', name: 'Аксессуары', icon: '💍' }
+      ];
+
+      equipmentContainer.innerHTML = slots.map(slot => {
+        const equipped = store.equipped[slot.id];
+        const isEquipped = equipped ? 'equipped' : '';
+        
+        return `
+          <div class="equipment-slot ${isEquipped}" data-slot="${slot.id}" onclick="window.uiManager.unequipItem('${slot.id}')">
+            <div class="equipment-slot-icon">${slot.icon}</div>
+            <div class="equipment-slot-name">${slot.name}</div>
+            ${equipped ? `
+              <div class="equipment-item-equipped">
+                <img src="${this.getItemImage(equipped)}" alt="${equipped.name}" class="equipped-item-image">
+                <div class="equipment-item-name">${equipped.name}</div>
+              </div>
+            ` : '<div class="equipment-item-empty">Пусто</div>'}
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Wardrobe items (только одежда и аксессуары)
+    if (wardrobeContainer) {
+      const wardrobeItems = store.inventory.filter(item => 
+        ['hair', 'upper', 'lower', 'underwear', 'shoes', 'accessories'].includes(item.slot)
+      );
+      
+      if (wardrobeItems.length === 0) {
+        wardrobeContainer.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; color: var(--text-secondary); padding: 20px;">
+            Гардероб пуст
+          </div>
+        `;
+      } else {
+        wardrobeContainer.innerHTML = wardrobeItems.map(item => `
+          <div class="wardrobe-item" data-item-id="${item.id}" onclick="window.uiManager.equipItem('${item.id}')">
+            <div class="wardrobe-item-image">
+              <img src="${this.getItemImage(item)}" alt="${item.name}" onerror="this.src='/assets/images/placeholder.jpg'">
+            </div>
+            <div class="wardrobe-item-info">
+              <div class="wardrobe-item-name">${item.name}</div>
+              <div class="wardrobe-item-type">${this.getSlotName(item.slot)}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+  }
+
+  getItemImage(item) {
+    // Маппинг ID предметов на изображения
+    const imageMap = {
+      'male_shirt_white': '/assets/images/items/clothing/upper/male_shirt_white.jpg',
+      'male_jeans_blue': '/assets/images/items/clothing/lower/male_jeans_blue.jpg', 
+      'male_boxers_black': '/assets/images/items/clothing/underwear/male_boxers_black.jpg',
+      'male_sneakers_black': '/assets/images/items/clothing/shoes/male_sneakers_black.jpg',
+      'pink_panties': '/assets/images/items/clothing/underwear/pink_panties.jpg',
+      'basic_bra': '/assets/images/items/clothing/underwear/basic_bra.jpg',
+      'chastity_plastic_pink': '/assets/images/items/chastity/chastity_plastic_pink.jpg',
+      'buttplug_small_jewel': '/assets/images/items/toys/buttplug_small_jewel.jpg'
+    };
+    
+    return imageMap[item.id] || '/assets/images/placeholder.jpg';
   }
 }
 

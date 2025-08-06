@@ -128,6 +128,37 @@
     </div>
   </div>
   
+  <!-- Wardrobe Modal -->
+  <div class="modal-overlay" id="wardrobe-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>👗</span>
+          <span>Гардероб</span>
+        </div>
+        <button class="modal-close" data-close="wardrobe-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="equipment-section">
+          <h3>Экипированные предметы</h3>
+          <div class="equipment-slots" id="wardrobe-equipment-slots">
+            <!-- Equipment slots will be populated here -->
+          </div>
+        </div>
+        
+        <div class="wardrobe-section">
+          <h3>Содержимое гардероба</h3>
+          <div class="wardrobe-grid" id="wardrobe-items-grid">
+            <!-- Wardrobe items will be populated here -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="wardrobe-modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+  
   <!-- Stats Modal -->
   <div class="modal-overlay" id="stats-modal">
     <div class="modal">

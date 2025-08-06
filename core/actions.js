@@ -3,6 +3,18 @@ import SceneEngine from './SceneEngine.js';
 
 export function handleSpecialLink(href, engine) {
   try {
+    // Обработка javascript: ссылок
+    if (href.startsWith('javascript:')) {
+      try {
+        const code = href.replace('javascript:', '');
+        eval(code);
+        return true; // Обработано
+      } catch (error) {
+        console.error('JavaScript link error:', error);
+        return true; // Все равно обработано, чтобы не пытаться загрузить как сцену
+      }
+    }
+    
     if (href.startsWith('set:')) {
       // format: set:stat=value&next=scene
       const q = href.slice(4);

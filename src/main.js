@@ -4,7 +4,6 @@ import UIManager from '../core/UIManager.js';
 import CharacterPresets from '../systems/CharacterPresets.js';
 import store from '../systems/store.js';
 import testRunner from '../core/testing.js';
-import DebugLogger from '../core/DebugLogger.js';
 
 // Инициализация отладки
 window.debugLogger?.log('INFO', '🚀 Starting SissyLifeSim...');
