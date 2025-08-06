@@ -608,17 +608,25 @@ body {
 
 .equipment-slots {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 14px;
   width: 100%;
   box-sizing: border-box;
 }
 
 .equipment-slot {
-  min-width: 120px;
-  min-height: 120px;
-  max-width: 180px;
-  max-height: 180px;
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .equipment-slot:hover {
@@ -627,27 +635,14 @@ body {
 }
 
 .equipment-slot.equipped {
-  min-width: 80px;
-  min-height: 80px;
-  max-width: 100px;
-  max-height: 100px;
-  font-size: 0.7em;
-  padding: 2px 4px;
-  background: rgba(16, 185, 129, 0.18);
-  border-width: 2.5px;
+  border-color: var(--success-color);
+  background: rgba(16, 185, 129, 0.1);
   box-shadow: 0 0 0 2px var(--success-color) inset;
 }
 
-.equipment-slot.equipped .equipment-slot-icon {
-  font-size: 0.9rem;
-}
-
-.equipment-slot.equipped .equipment-slot-name {
-  font-size: 0.6rem;
-}
-
 .equipment-slot-icon {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  line-height: 1;
   margin-bottom: 4px;
 }
 
@@ -663,6 +658,9 @@ body {
   text-align: center;
   margin-top: 2px;
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Стили для заголовков */
@@ -1064,11 +1062,11 @@ a:hover {
 
 @media (max-width: 1200px) {
   .equipment-slots {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
 }
 @media (max-width: 800px) {
   .equipment-slots {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
   }
-} 
+}
